@@ -26,7 +26,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Success Criteria** (what must be TRUE):
   1. Container runs OpenClaw Control UI accessible on port 18789
   2. Container survives restart with configuration and data intact (no data loss)
-  3. Files in persistent volume have correct ownership matching PUID/PGID settings
+  3. Files in persistent volume have correct ownership for node user permissions
   4. Health check correctly reports container status (healthy/unhealthy)
   5. Container runs as non-root user with proper permissions
 **Plans**: 2 plans

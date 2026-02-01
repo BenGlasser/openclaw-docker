@@ -9,10 +9,10 @@ Requirements for initial Community Apps submission. Each maps to roadmap phases.
 
 ### Container Foundation
 
-- [ ] **CONT-01**: Container uses Node.js 22 Alpine base image with multi-stage build
+- [ ] **CONT-01**: Container uses Node.js 22 Bookworm base image with fresh git clone build
 - [ ] **CONT-02**: ~/.openclaw/ directory mapped to persistent volume at /mnt/user/appdata/openclaw/
-- [ ] **CONT-03**: Container accepts PUID and PGID environment variables (default 99:100)
-- [ ] **CONT-04**: Entrypoint script fixes file ownership based on PUID/PGID before starting OpenClaw
+- [ ] **CONT-03**: Container runs as non-root node user with proper permissions
+- [ ] **CONT-04**: Entrypoint script handles permission scenarios gracefully before starting OpenClaw
 - [ ] **CONT-05**: OpenClaw Control UI accessible on configurable port (default 18789)
 - [ ] **CONT-06**: Container runs as non-root user with proper permissions
 - [ ] **CONT-07**: Health check configured to monitor OpenClaw service status
