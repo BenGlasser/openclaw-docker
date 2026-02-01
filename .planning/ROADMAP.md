@@ -12,7 +12,7 @@ This roadmap delivers OpenClaw to the Unraid Community Applications catalog thro
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Container Development** - Docker container with persistent volume and permission management
+- [x] **Phase 1: Container Development** - Docker container with persistent volume and permission management
 - [ ] **Phase 2: Publishing Pipeline** - Automated DockerHub publishing via GitHub Actions
 - [ ] **Phase 3: Unraid Integration** - XML template and testing on Unraid server
 - [ ] **Phase 4: Community Distribution** - Forum support and Community Applications submission
@@ -32,8 +32,8 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Plans**: 2 plans
 
 Plans:
-- [ ] 01-01-PLAN.md — Create Dockerfile, .dockerignore, entrypoint.sh, and healthcheck.js
-- [ ] 01-02-PLAN.md — Test persistence, permissions, health check, and user verification
+- [x] 01-01-PLAN.md — Create Dockerfile, .dockerignore, entrypoint.sh, and healthcheck.js
+- [x] 01-02-PLAN.md — Test persistence, permissions, health check, and user verification
 
 ### Phase 2: Publishing Pipeline
 **Goal**: Docker images are automatically built and published to DockerHub with semantic versioning
@@ -84,7 +84,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Container Development | 0/2 | Planned | - |
+| 1. Container Development | 2/2 | Complete | 2026-02-01 |
 | 2. Publishing Pipeline | 0/TBD | Not started | - |
 | 3. Unraid Integration | 0/TBD | Not started | - |
 | 4. Community Distribution | 0/TBD | Not started | - |
@@ -92,3 +92,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 ---
 *Roadmap created: 2026-02-01*
 *Last updated: 2026-02-01*
+*Phase 1 completed: 2026-02-01*

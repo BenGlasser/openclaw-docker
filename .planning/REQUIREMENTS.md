@@ -9,14 +9,14 @@ Requirements for initial Community Apps submission. Each maps to roadmap phases.
 
 ### Container Foundation
 
-- [ ] **CONT-01**: Container uses Node.js 22 Bookworm base image with fresh git clone build
-- [ ] **CONT-02**: ~/.openclaw/ directory mapped to persistent volume at /mnt/user/appdata/openclaw/
-- [ ] **CONT-03**: Container runs as non-root node user with proper permissions
-- [ ] **CONT-04**: Entrypoint script handles permission scenarios gracefully before starting OpenClaw
-- [ ] **CONT-05**: OpenClaw Control UI accessible on configurable port (default 18789)
-- [ ] **CONT-06**: Container runs as non-root user with proper permissions
-- [ ] **CONT-07**: Health check configured to monitor OpenClaw service status
-- [ ] **CONT-08**: Container survives restarts with all config and data intact
+- [x] **CONT-01**: Container uses Node.js 22 Bookworm base image with fresh git clone build
+- [x] **CONT-02**: ~/.openclaw/ directory mapped to persistent volume at /mnt/user/appdata/openclaw/
+- [x] **CONT-03**: Container runs as non-root node user with proper permissions
+- [x] **CONT-04**: Entrypoint script handles permission scenarios gracefully before starting OpenClaw
+- [x] **CONT-05**: OpenClaw Control UI accessible on configurable port (default 18789)
+- [x] **CONT-06**: Container runs as non-root user with proper permissions
+- [x] **CONT-07**: Health check configured to monitor OpenClaw service status
+- [x] **CONT-08**: Container survives restarts with all config and data intact
 
 ### Unraid Integration
 
@@ -82,14 +82,14 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| CONT-01 | Phase 1 | Pending |
-| CONT-02 | Phase 1 | Pending |
-| CONT-03 | Phase 1 | Pending |
-| CONT-04 | Phase 1 | Pending |
-| CONT-05 | Phase 1 | Pending |
-| CONT-06 | Phase 1 | Pending |
-| CONT-07 | Phase 1 | Pending |
-| CONT-08 | Phase 1 | Pending |
+| CONT-01 | Phase 1 | Complete |
+| CONT-02 | Phase 1 | Complete |
+| CONT-03 | Phase 1 | Complete |
+| CONT-04 | Phase 1 | Complete |
+| CONT-05 | Phase 1 | Complete |
+| CONT-06 | Phase 1 | Complete |
+| CONT-07 | Phase 1 | Complete |
+| CONT-08 | Phase 1 | Complete |
 | UNRD-01 | Phase 3 | Pending |
 | UNRD-02 | Phase 3 | Pending |
 | UNRD-03 | Phase 3 | Pending |
@@ -116,4 +116,4 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 ---
 *Requirements defined: 2026-02-01*
-*Last updated: 2026-02-01 after roadmap creation*
+*Last updated: 2026-02-01 after Phase 1 completion*
