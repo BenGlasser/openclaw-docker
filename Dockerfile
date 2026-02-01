@@ -16,8 +16,16 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 WORKDIR /app
 
 # Clone OpenClaw from GitHub (always latest main branch)
-RUN git clone https://github.com/openclaw/openclaw.git . \
-  && npm install
+RUN git clone https://github.com/openclaw/openclaw.git .
+
+# Enable pnpm (required by OpenClaw)
+RUN corepack enable && corepack prepare pnpm@10.23.0 --activate
+
+# Install dependencies and build
+RUN pnpm install && pnpm build
+
+# Build Control UI assets
+RUN pnpm ui:build
 
 # Copy entrypoint and health check scripts
 COPY --chmod=755 entrypoint.sh /entrypoint.sh
@@ -46,4 +54,6 @@ HEALTHCHECK --interval=30s --timeout=5s --start-period=60s --retries=3 \
 ENTRYPOINT ["dumb-init", "--", "/entrypoint.sh"]
 
 # Start OpenClaw gateway (Control UI server)
-CMD ["npx", "openclaw", "gateway", "--port", "18789"]
+# --allow-unconfigured: Allows startup without initial configuration
+# --bind lan: Listen on all interfaces (0.0.0.0) for Docker port mapping
+CMD ["npx", "openclaw", "gateway", "--port", "18789", "--bind", "lan", "--allow-unconfigured"]
