@@ -10,28 +10,28 @@ See: .planning/PROJECT.md (updated 2026-02-01)
 ## Current Position
 
 Phase: 1 of 4 (Container Development)
-Plan: 0 of TBD in current phase
-Status: Ready to plan
-Last activity: 2026-02-01 — Roadmap created
+Plan: 1 of 1 in current phase
+Status: Phase complete
+Last activity: 2026-02-01 — Completed 01-01-PLAN.md
 
-Progress: [░░░░░░░░░░] 0%
+Progress: [██████████] 100%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 0
-- Average duration: N/A
-- Total execution time: 0.0 hours
+- Total plans completed: 1
+- Average duration: 19 min
+- Total execution time: 0.3 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| - | - | - | - |
+| 01-container-development | 1 | 19 min | 19 min |
 
 **Recent Trend:**
-- Last 5 plans: N/A
-- Trend: Not established
+- Last 5 plans: 01-01 (19 min)
+- Trend: First plan completed
 
 *Updated after each plan completion*
 
@@ -45,6 +45,10 @@ Recent decisions affecting current work:
 - Target Unraid community (not just personal use) — Makes OpenClaw accessible to broader audience, justifies Community Apps submission
 - Use OpenClaw's existing Control UI — Their UI already handles setup/interaction, no need to duplicate
 - Full ~/.openclaw/ persistence — User selected "everything" — captures config, agent data, conversation history
+- Use pnpm instead of npm — Required by OpenClaw's package.json packageManager field
+- Build Control UI assets during image build — Enables immediate UI access without manual build steps
+- Bind to LAN mode (0.0.0.0) for Docker — Allows port mapping to work correctly
+- Auto-generate auth token if not provided — Simplifies first-run experience while maintaining security
 
 ### Pending Todos
 
@@ -56,10 +60,10 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-02-01
-Stopped at: Roadmap creation completed
+Last session: 2026-02-01T23:29:01Z
+Stopped at: Completed 01-01-PLAN.md (Container Foundation)
 Resume file: None
 
 ---
 *State initialized: 2026-02-01*
-*Last updated: 2026-02-01*
+*Last updated: 2026-02-01T23:29:01Z*
