@@ -29,10 +29,11 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. Files in persistent volume have correct ownership matching PUID/PGID settings
   4. Health check correctly reports container status (healthy/unhealthy)
   5. Container runs as non-root user with proper permissions
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] TBD
+- [ ] 01-01-PLAN.md — Create Dockerfile, .dockerignore, entrypoint.sh, and healthcheck.js
+- [ ] 01-02-PLAN.md — Test persistence, permissions, health check, and user verification
 
 ### Phase 2: Publishing Pipeline
 **Goal**: Docker images are automatically built and published to DockerHub with semantic versioning
@@ -83,7 +84,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Container Development | 0/TBD | Not started | - |
+| 1. Container Development | 0/2 | Planned | - |
 | 2. Publishing Pipeline | 0/TBD | Not started | - |
 | 3. Unraid Integration | 0/TBD | Not started | - |
 | 4. Community Distribution | 0/TBD | Not started | - |
