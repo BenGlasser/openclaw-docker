@@ -1,3 +1,7 @@
+<p align="center">
+  <img width="256" height="256" alt="openclaw" src="https://github.com/user-attachments/assets/235dfae8-07e8-43d3-8efd-2bc02345f561" />
+</p>
+
 # OpenClaw Docker
 
 Docker container for [OpenClaw](https://github.com/openclaw/openclaw), an AI gateway platform. Built for easy deployment on Unraid and any Docker-compatible system.
