@@ -12,7 +12,7 @@ env:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     permissions:
       contents: read
       packages: write
@@ -57,7 +57,7 @@ jobs:
 
   sync-readme:
     needs: build
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     if: github.event_name != 'pull_request'
 
     steps:
