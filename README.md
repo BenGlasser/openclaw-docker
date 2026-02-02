@@ -13,7 +13,7 @@ docker run -d \
   -p 18789:18789 \
   -v openclaw-data:/home/node/.openclaw \
   -e OPENCLAW_GATEWAY_TOKEN=your-secret-token \
-  benglasser/openclaw
+  brglasser/openclaw
 ```
 
 Then open `http://localhost:18789` to access the OpenClaw Control UI.
