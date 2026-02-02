@@ -9,29 +9,30 @@ See: .planning/PROJECT.md (updated 2026-02-01)
 
 ## Current Position
 
-Phase: 1 of 4 (Container Development) — COMPLETE ✓
-Plan: 2 of 2 plans completed
-Status: Ready for Phase 2
-Last activity: 2026-02-01 — Phase 1 verified and complete
+Phase: 2 of 4 (Publishing Pipeline) — COMPLETE ✓
+Plan: 1 of 1 plans completed
+Status: Ready for Phase 3
+Last activity: 2026-02-02 — Phase 2 verified and complete
 
-Progress: [██████████] 100% (Phase 1 complete)
+Progress: [████████████████████] 100% (Phase 2 complete)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 2
-- Average duration: 14 min
-- Total execution time: 0.5 hours
+- Total plans completed: 3
+- Average duration: 24 min
+- Total execution time: 1.2 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 01-container-development | 2 | 28 min | 14 min |
+| 02-publishing-pipeline | 1 | 45 min | 45 min |
 
 **Recent Trend:**
-- Last 5 plans: 01-01 (19 min), 01-02 (9 min)
-- Trend: Phase 1 complete, verification plan faster than foundation
+- Last 5 plans: 01-01 (19 min), 01-02 (9 min), 02-01 (45 min)
+- Trend: Phase 2 longer due to user checkpoint and workflow debugging
 
 *Updated after each plan completion*
 
@@ -50,6 +51,9 @@ Recent decisions affecting current work:
 - Bind to LAN mode (0.0.0.0) for Docker — Allows port mapping to work correctly
 - Auto-generate auth token if not provided — Simplifies first-run experience while maintaining security
 - Test-only verification plan (01-02) — No code modifications, pure empirical validation of container requirements
+- Use GitHub Actions variables for DOCKERHUB_USERNAME — Variables (vars.*) for non-sensitive config, secrets for tokens
+- Conditional README sync in workflow — Handles missing README gracefully until documentation phase
+- Multi-platform Docker builds (amd64/arm64) — Required for Unraid compatibility across different server architectures
 
 ### Pending Todos
 
@@ -61,10 +65,10 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-02-01
-Stopped at: Phase 1 complete, verified all success criteria
+Last session: 2026-02-02
+Stopped at: Phase 2 complete, verified all success criteria
 Resume file: None
 
 ---
 *State initialized: 2026-02-01*
-*Last updated: 2026-02-01*
+*Last updated: 2026-02-02*
