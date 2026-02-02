@@ -9,18 +9,18 @@ See: .planning/PROJECT.md (updated 2026-02-01)
 
 ## Current Position
 
-Phase: 3 of 4 (Unraid Integration) — In Progress
-Plan: 1 of 1 plans completed
+Phase: 3 of 4 (Unraid Integration) — Complete
+Plan: 2 of 2 plans completed
 Status: Phase 3 complete, ready for Phase 4
-Last activity: 2026-02-02 — Completed 03-01-PLAN.md
+Last activity: 2026-02-02 — Completed 03-02-PLAN.md
 
-Progress: [████████████████████] 80% (4/5 plans complete)
+Progress: [████████████████████] 100% (5/5 plans complete)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 4
-- Average duration: 18 min
+- Total plans completed: 5
+- Average duration: 15 min
 - Total execution time: 1.2 hours
 
 **By Phase:**
@@ -29,11 +29,11 @@ Progress: [████████████████████] 80% (4/
 |-------|-------|-------|----------|
 | 01-container-development | 2 | 28 min | 14 min |
 | 02-publishing-pipeline | 1 | 45 min | 45 min |
-| 03-unraid-integration | 1 | 1 min | 1 min |
+| 03-unraid-integration | 2 | 1 min | 0.5 min |
 
 **Recent Trend:**
-- Last 5 plans: 01-01 (19 min), 01-02 (9 min), 02-01 (45 min), 03-01 (1 min)
-- Trend: Phase 3 fast - straightforward template generation and validation
+- Last 5 plans: 01-01 (19 min), 01-02 (9 min), 02-01 (45 min), 03-01 (1 min), 03-02 (0 min)
+- Trend: Phase 3 extremely fast - template generation and user verification only, no code execution
 
 *Updated after each plan completion*
 
@@ -59,6 +59,8 @@ Recent decisions affecting current work:
 - Default PUID=1000 for backward compatibility, PGID=100 for Unraid — Preserves non-Unraid compatibility
 - Generate template via Unraid Docker tab — Ensures CA-compatible XML structure, then enhance with missing critical fields
 - Display PUID/PGID as advanced variables — Hides from basic setup, power users can adjust if needed
+- Port mapping missing from template on GitHub — User manually added in Docker tab, needs investigation and fix
+- OpenClaw Control UI requires HTTPS or localhost — SSH tunnel workaround documented for LAN testing
 
 ### Pending Todos
 
@@ -66,12 +68,22 @@ None yet.
 
 ### Blockers/Concerns
 
-None yet.
+**Port mapping investigation needed (03-02 finding):**
+- User reported port 18789 was missing from template during Unraid installation
+- Template file shows port Config entry was added in 03-01 (auto-fixed per SUMMARY line 99-104)
+- Investigation needed: Was template committed correctly? Did GitHub have latest version?
+- Action: Verify template on GitHub matches local file, re-push if needed
+
+**HTTPS requirement may confuse users (03-02 finding):**
+- OpenClaw Control UI requires secure context (HTTPS or localhost)
+- Standard Unraid LAN access is HTTP
+- Workaround: SSH tunnel `ssh -L 18789:localhost:18789 root@unraid-ip`
+- Action: Document HTTPS requirement and SSH tunnel pattern for Phase 4 user documentation
 
 ## Session Continuity
 
 Last session: 2026-02-02
-Stopped at: Phase 3 plan 03-01 complete, ready for Phase 4
+Stopped at: Phase 3 complete (plan 03-02), ready for Phase 4
 Resume file: None
 
 ---
