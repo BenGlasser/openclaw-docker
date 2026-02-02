@@ -39,6 +39,11 @@ echo "PUID: $PUID, PGID: $PGID"
 echo "Data directory: /home/node/.openclaw"
 echo "Gateway token: ${OPENCLAW_GATEWAY_TOKEN:0:10}..."
 
+npm install -g openclaw
+apt update && apt install iproute2 -y 
+
+su node -c ./connect-qr.sh
+
 # Replace this shell with the main command, dropping to remapped user
 # gosu properly replaces the process and maintains signal handling with dumb-init
 exec gosu node "$@"

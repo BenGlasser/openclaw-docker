@@ -8,10 +8,12 @@ FROM node:22-bookworm
 # curl, procps, git: Debugging and build tools
 RUN apt-get update && apt-get install -y --no-install-recommends \
     dumb-init \
-    gosu \
-    curl \
-    procps \
-    git \
+    gosu      \
+    curl      \
+    procps    \
+    git       \
+    vim       \
+    iproute2  \
   && rm -rf /var/lib/apt/lists/*
 
 # Set working directory
