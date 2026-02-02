@@ -44,10 +44,10 @@ Plans:
   2. Image published to DockerHub with correct tags (latest, 1.0.0, 1.0, 1)
   3. Multi-platform manifest supports both AMD64 and ARM64 architectures
   4. Users can pull image with `docker pull username/openclaw:latest`
-**Plans**: TBD
+**Plans**: 1 plan
 
 Plans:
-- [ ] TBD
+- [ ] 02-01-PLAN.md — Create GitHub Actions workflow for multi-platform Docker publishing to DockerHub
 
 ### Phase 3: Unraid Integration
 **Goal**: Users can install OpenClaw through Unraid Docker interface with working template
