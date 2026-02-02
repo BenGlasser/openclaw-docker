@@ -1,16 +1,28 @@
 #!/bin/bash
 set -e
 
-# Fix ownership of persistent volume if it exists
-# This handles the case where host creates the directory with different UID
-# The chown runs as the current user (node) - may fail on root-owned files
-# which is expected and safe to ignore
-if [ -d /home/node/.openclaw ]; then
-  chown -R node:node /home/node/.openclaw 2>/dev/null || true
+# PUID/PGID defaults
+# PUID=1000 preserves backward compatibility for non-Unraid users
+# PGID=100 matches Unraid's 'users' group default
+PUID=${PUID:-1000}
+PGID=${PGID:-100}
+
+# Remap node user/group to match PUID/PGID
+# This enables Unraid's permission model (typically 99:100)
+if [ "$(id -u node)" != "$PUID" ]; then
+  usermod -o -u "$PUID" node
+fi
+if [ "$(id -g node)" != "$PGID" ]; then
+  groupmod -o -g "$PGID" node
 fi
 
 # Create .openclaw directory if it doesn't exist
 mkdir -p /home/node/.openclaw
+
+# Fix ownership of persistent volume and app directory
+# Must run after UID/GID remapping to use correct values
+chown -R node:node /home/node/.openclaw 2>/dev/null || true
+chown -R node:node /app 2>/dev/null || true
 
 # Generate default token if not set
 # Users should override with OPENCLAW_GATEWAY_TOKEN environment variable
@@ -23,10 +35,10 @@ fi
 
 # Log startup info
 echo "OpenClaw Docker container starting..."
-echo "User: $(whoami) ($(id -u):$(id -g))"
+echo "PUID: $PUID, PGID: $PGID"
 echo "Data directory: /home/node/.openclaw"
 echo "Gateway token: ${OPENCLAW_GATEWAY_TOKEN:0:10}..."
 
-# Replace this shell with the main command
-# Critical: exec ensures signals from dumb-init reach the node process
-exec "$@"
+# Replace this shell with the main command, dropping to remapped user
+# gosu properly replaces the process and maintains signal handling with dumb-init
+exec gosu node "$@"

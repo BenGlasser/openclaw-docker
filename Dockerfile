@@ -4,9 +4,11 @@ FROM node:22-bookworm
 
 # Install init system and debugging tools
 # dumb-init: Handles PID 1 signal forwarding to prevent zombie processes
+# gosu: Allows running commands as different UID without su/sudo issues
 # curl, procps, git: Debugging and build tools
 RUN apt-get update && apt-get install -y --no-install-recommends \
     dumb-init \
+    gosu \
     curl \
     procps \
     git \
@@ -42,9 +44,6 @@ EXPOSE 18789
 
 # Define persistent volume for configuration and data
 VOLUME ["/home/node/.openclaw"]
-
-# Switch to non-root user for security
-USER node
 
 # Health check: Verify OpenClaw Control UI is responding
 HEALTHCHECK --interval=30s --timeout=5s --start-period=60s --retries=3 \
