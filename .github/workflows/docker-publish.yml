@@ -65,7 +65,18 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Check if README exists
+        id: readme-check
+        run: |
+          if [ -f README.md ]; then
+            echo "exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "exists=false" >> $GITHUB_OUTPUT
+            echo "⚠️ README.md not found - skipping sync"
+          fi
+
       - name: Sync README to Docker Hub
+        if: steps.readme-check.outputs.exists == 'true'
         uses: peter-evans/dockerhub-description@v4
         with:
           username: ${{ vars.DOCKERHUB_USERNAME }}
