@@ -59,11 +59,12 @@ Plans:
   3. User clicks WebUI link in Unraid Docker tab and reaches OpenClaw Control UI
   4. Volume mapping persists data to /mnt/user/appdata/openclaw/
   5. Container installation and update tested on actual Unraid server
-**Plans**: 2 plans
+**Plans**: 3 plans
 
 Plans:
 - [x] 03-01-PLAN.md — Create XML template and update entrypoint for PUID/PGID support
 - [x] 03-02-PLAN.md — Test complete installation flow on Unraid server
+- [ ] 03-03-PLAN.md — Fix verification gaps: icon URL, volume path space, repository name
 
 ### Phase 4: Community Distribution
 **Goal**: OpenClaw is available in Unraid Community Applications catalog for public installation
