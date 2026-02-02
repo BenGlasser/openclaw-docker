@@ -31,19 +31,19 @@ Requirements for initial Community Apps submission. Each maps to roadmap phases.
 
 ### Distribution & Publishing
 
-- [ ] **DIST-01**: Docker image published to DockerHub with public access
-- [ ] **DIST-02**: Image tagged with semantic versioning (1.0.0, 1.0, 1, latest)
-- [ ] **DIST-03**: Multi-platform Docker manifest supports AMD64 and ARM64
+- [x] **DIST-01**: Docker image published to DockerHub with public access
+- [x] **DIST-02**: Image tagged with semantic versioning (1.0.0, 1.0, 1, latest)
+- [x] **DIST-03**: Multi-platform Docker manifest supports AMD64 and ARM64
 - [ ] **DIST-04**: Support thread created on Unraid forums before submission
 - [ ] **DIST-05**: README includes installation instructions and volume mapping details
 - [ ] **DIST-06**: Community Applications submission completed and approved
 
 ### Automation & CI/CD
 
-- [ ] **AUTO-01**: GitHub Actions workflow builds Docker image on push to main
-- [ ] **AUTO-02**: GitHub Actions workflow publishes to DockerHub with proper tags
-- [ ] **AUTO-03**: GitHub Actions builds multi-platform images (AMD64 + ARM64)
-- [ ] **AUTO-04**: Automated builds triggered on version tags (v*)
+- [x] **AUTO-01**: GitHub Actions workflow builds Docker image on push to main
+- [x] **AUTO-02**: GitHub Actions workflow publishes to DockerHub with proper tags
+- [x] **AUTO-03**: GitHub Actions builds multi-platform images (AMD64 + ARM64)
+- [x] **AUTO-04**: Automated builds triggered on version tags (v*)
 
 ## v2 Requirements
 
@@ -98,16 +98,16 @@ Which phases cover which requirements. Updated during roadmap creation.
 | UNRD-06 | Phase 3 | Pending |
 | UNRD-07 | Phase 3 | Pending |
 | UNRD-08 | Phase 3 | Pending |
-| DIST-01 | Phase 2 | Pending |
-| DIST-02 | Phase 2 | Pending |
-| DIST-03 | Phase 2 | Pending |
+| DIST-01 | Phase 2 | Complete |
+| DIST-02 | Phase 2 | Complete |
+| DIST-03 | Phase 2 | Complete |
 | DIST-04 | Phase 4 | Pending |
 | DIST-05 | Phase 4 | Pending |
 | DIST-06 | Phase 4 | Pending |
-| AUTO-01 | Phase 2 | Pending |
-| AUTO-02 | Phase 2 | Pending |
-| AUTO-03 | Phase 2 | Pending |
-| AUTO-04 | Phase 2 | Pending |
+| AUTO-01 | Phase 2 | Complete |
+| AUTO-02 | Phase 2 | Complete |
+| AUTO-03 | Phase 2 | Complete |
+| AUTO-04 | Phase 2 | Complete |
 
 **Coverage:**
 - v1 requirements: 28 total
@@ -116,4 +116,4 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 ---
 *Requirements defined: 2026-02-01*
-*Last updated: 2026-02-01 after Phase 1 completion*
+*Last updated: 2026-02-02 after Phase 2 completion*
