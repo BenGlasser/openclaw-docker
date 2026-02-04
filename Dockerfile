@@ -36,6 +36,9 @@ COPY healthcheck.js /healthcheck.js
 # Symlink the locally built CLI into PATH
 RUN ln -s /app/openclaw.mjs /usr/local/bin/openclaw
 
+# Container image version
+ENV OPENCLAW_DOCKER_VERSION="0.3.0"
+
 # Expose OpenClaw Control UI port
 EXPOSE 18789
 EXPOSE 3001

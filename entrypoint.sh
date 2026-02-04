@@ -12,7 +12,7 @@ if [ -z "$OPENCLAW_GATEWAY_TOKEN" ]; then
 fi
 
 # Log startup info
-echo "OpenClaw Docker container starting..."
+echo "OpenClaw Docker v${OPENCLAW_DOCKER_VERSION:-unknown} starting..."
 echo "Data directory: /root/.openclaw"
 echo "Gateway token: ${OPENCLAW_GATEWAY_TOKEN:0:10}..."
 
