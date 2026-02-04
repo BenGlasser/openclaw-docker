@@ -44,6 +44,9 @@ RUN mkdir -p /home/node/.openclaw && chown -R node:node /home/node/.openclaw
 # Create user-level npm global directory so openclaw installs without root
 RUN mkdir -p /home/node/.npm-global && chown -R node:node /home/node/.npm-global
 
+# Symlink the locally built CLI into a PATH-accessible location
+RUN ln -s /app/openclaw.mjs /usr/local/bin/openclaw
+
 # Add user-level npm bin to PATH
 ENV PATH="/home/node/.npm-global/bin:${PATH}"
 ENV NPM_CONFIG_PREFIX="/home/node/.npm-global"
@@ -65,4 +68,4 @@ ENTRYPOINT ["dumb-init", "--", "/entrypoint.sh"]
 # Start OpenClaw gateway (Control UI server)
 # --allow-unconfigured: Allows startup without initial configuration
 # --bind lan: Listen on all interfaces (0.0.0.0) for Docker port mapping
-CMD ["npx", "openclaw", "gateway", "--port", "18789", "--bind", "lan", "--allow-unconfigured"]
+CMD ["node", "openclaw.mjs", "gateway", "--port", "18789", "--bind", "lan", "--allow-unconfigured"]

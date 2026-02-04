@@ -39,8 +39,6 @@ echo "PUID: $PUID, PGID: $PGID"
 echo "Data directory: /home/node/.openclaw"
 echo "Gateway token: ${OPENCLAW_GATEWAY_TOKEN:0:10}..."
 
-gosu node npm install -g openclaw
-
 gosu node ./connect-qr.sh || true
 
 # Replace this shell with the main command, dropping to remapped user
