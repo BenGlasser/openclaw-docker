@@ -46,7 +46,7 @@ EXPOSE 3334
 
 # Persistent volume at a stable path, symlinked to root's home for openclaw
 RUN mkdir -p /data/.openclaw && ln -s /data/.openclaw /root/.openclaw
-VOLUME ["/data/.openclaw"]
+VOLUME ["/root/.openclaw"]
 
 # Health check: Verify OpenClaw Control UI is responding
 HEALTHCHECK --interval=30s --timeout=5s --start-period=60s --retries=3 \
