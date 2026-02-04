@@ -79,6 +79,6 @@ jobs:
         uses: peter-evans/dockerhub-description@v4
         with:
           username: ${{ vars.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          password: ${{ secrets.DOCKERHUB_PW }}
           repository: ${{ vars.DOCKERHUB_USERNAME }}/openclaw
           readme-filepath: ./README.md
