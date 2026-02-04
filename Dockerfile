@@ -44,8 +44,9 @@ EXPOSE 18789
 EXPOSE 3001
 EXPOSE 3334
 
-# Define persistent volume for configuration and data
-VOLUME ["/root/.openclaw"]
+# Persistent volume at a stable path, symlinked to root's home for openclaw
+RUN mkdir -p /data/.openclaw && ln -s /data/.openclaw /root/.openclaw
+VOLUME ["/data/.openclaw"]
 
 # Health check: Verify OpenClaw Control UI is responding
 HEALTHCHECK --interval=30s --timeout=5s --start-period=60s --retries=3 \

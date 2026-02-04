@@ -1,8 +1,8 @@
 #!/bin/bash
 set -e
 
-# Create .openclaw directory if it doesn't exist
-mkdir -p /root/.openclaw
+# Ensure data directory exists
+mkdir -p /data/.openclaw
 
 # Generate default token if not set
 # Users should override with OPENCLAW_GATEWAY_TOKEN environment variable
@@ -13,7 +13,7 @@ fi
 
 # Log startup info
 echo "OpenClaw Docker v${OPENCLAW_DOCKER_VERSION:-unknown} starting..."
-echo "Data directory: /root/.openclaw"
+echo "Data directory: /data/.openclaw"
 echo "Gateway token: ${OPENCLAW_GATEWAY_TOKEN:0:10}..."
 
 ./connect-qr.sh || true

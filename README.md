@@ -11,7 +11,7 @@ Docker container for [OpenClaw](https://github.com/openclaw/openclaw), an AI gat
 ```bash
 docker run -d \
   -p 18789:18789 \
-  -v openclaw-data:/root/.openclaw \
+  -v openclaw-data:/data/.openclaw \
   -e OPENCLAW_GATEWAY_TOKEN=your-secret-token \
   brglasser/openclaw
 ```
@@ -28,7 +28,7 @@ Then open `http://localhost:18789` to access the OpenClaw Control UI.
 
 | Path | Description |
 |------|-------------|
-| `/root/.openclaw` | Persistent data and configuration |
+| `/data/.openclaw` | Persistent data and configuration |
 
 ## Ports
 
