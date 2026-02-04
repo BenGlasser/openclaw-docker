@@ -4,11 +4,9 @@ FROM node:22-bookworm
 
 # Install init system and debugging tools
 # dumb-init: Handles PID 1 signal forwarding to prevent zombie processes
-# gosu: Allows running commands as different UID without su/sudo issues
 # curl, procps, git: Debugging and build tools
 RUN apt-get update && apt-get install -y --no-install-recommends \
     dumb-init \
-    gosu      \
     curl      \
     procps    \
     git       \
@@ -35,27 +33,16 @@ RUN pnpm ui:build
 COPY --chmod=755 entrypoint.sh /entrypoint.sh
 COPY healthcheck.js /healthcheck.js
 
-# Fix ownership of application files
-RUN chown -R node:node /app
-
-# Create persistent data directory with correct ownership
-RUN mkdir -p /home/node/.openclaw && chown -R node:node /home/node/.openclaw
-
-# Create user-level npm global directory so openclaw installs without root
-RUN mkdir -p /home/node/.npm-global && chown -R node:node /home/node/.npm-global
-
-# Symlink the locally built CLI into a PATH-accessible location
+# Symlink the locally built CLI into PATH
 RUN ln -s /app/openclaw.mjs /usr/local/bin/openclaw
-
-# Add user-level npm bin to PATH
-ENV PATH="/home/node/.npm-global/bin:${PATH}"
-ENV NPM_CONFIG_PREFIX="/home/node/.npm-global"
 
 # Expose OpenClaw Control UI port
 EXPOSE 18789
+EXPOSE 3001
+EXPOSE 3334
 
 # Define persistent volume for configuration and data
-VOLUME ["/home/node/.openclaw"]
+VOLUME ["/root/.openclaw"]
 
 # Health check: Verify OpenClaw Control UI is responding
 HEALTHCHECK --interval=30s --timeout=5s --start-period=60s --retries=3 \

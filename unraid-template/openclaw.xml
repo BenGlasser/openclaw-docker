@@ -22,10 +22,8 @@
   <DonateLink/>
   <Requires/>
   <Config Name="WebUI Port" Target="18789" Default="18789" Mode="tcp" Description="Port for accessing the OpenClaw Control UI" Type="Port" Display="always" Required="true" Mask="false">18789</Config>
-  <Config Name="appdata" Target="/home/node/.openclaw" Default="/mnt/user/appdata/openclaw" Mode="rw" Description="Stores OpenClaw configuration, agent data, and conversation history" Type="Path" Display="always" Required="true" Mask="false">/mnt/user/appdata/openclaw</Config>
+  <Config Name="appdata" Target="/root/.openclaw" Default="/mnt/user/appdata/openclaw" Mode="rw" Description="Stores OpenClaw configuration, agent data, and conversation history" Type="Path" Display="always" Required="true" Mask="false">/mnt/user/appdata/openclaw</Config>
   <Config Name="OPENCLAW_GATEWAY_TOKEN" Target="OPENCLAW_GATEWAY_TOKEN" Default="" Mode="" Description="Gateway authentication token (auto-generated if not set)" Type="Variable" Display="always" Required="false" Mask="true"/>
   <Config Name="ANTHROPIC_API_KEY" Target="ANTHROPIC_API_KEY" Default="" Mode="" Description="Claude API key for AI capabilities (can also be configured via Control UI after installation)" Type="Variable" Display="always" Required="false" Mask="true"/>
-  <Config Name="PUID" Target="PUID" Default="99" Mode="" Description="User ID for file permissions (Unraid default: 99)" Type="Variable" Display="advanced" Required="true" Mask="false">99</Config>
-  <Config Name="PGID" Target="PGID" Default="100" Mode="" Description="Group ID for file permissions (Unraid default: 100)" Type="Variable" Display="advanced" Required="true" Mask="false">100</Config>
   <TailscaleStateDir/>
 </Container>

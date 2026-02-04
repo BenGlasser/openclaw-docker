@@ -11,7 +11,7 @@ Docker container for [OpenClaw](https://github.com/openclaw/openclaw), an AI gat
 ```bash
 docker run -d \
   -p 18789:18789 \
-  -v openclaw-data:/home/node/.openclaw \
+  -v openclaw-data:/root/.openclaw \
   -e OPENCLAW_GATEWAY_TOKEN=your-secret-token \
   brglasser/openclaw
 ```
@@ -23,14 +23,12 @@ Then open `http://localhost:18789` to access the OpenClaw Control UI.
 | Variable | Default | Description |
 |----------|---------|-------------|
 | `OPENCLAW_GATEWAY_TOKEN` | *(auto-generated)* | Gateway authentication token. Set this for persistent access across restarts. |
-| `PUID` | `1000` | User ID for file permissions. Set to `99` for Unraid. |
-| `PGID` | `100` | Group ID for file permissions. Matches Unraid's `users` group by default. |
 
 ## Volumes
 
 | Path | Description |
 |------|-------------|
-| `/home/node/.openclaw` | Persistent data and configuration |
+| `/root/.openclaw` | Persistent data and configuration |
 
 ## Ports
 
@@ -42,7 +40,6 @@ Then open `http://localhost:18789` to access the OpenClaw Control UI.
 
 An Unraid template is included for Community Applications. The recommended configuration:
 
-- **PUID/PGID**: `99`/`100` (Unraid defaults)
 - **Data path**: `/mnt/user/appdata/openclaw`
 
 ## Building Locally
@@ -57,5 +54,4 @@ docker run -d -p 18789:18789 openclaw
 - **Base image**: `node:22-bookworm`
 - **Platforms**: `linux/amd64`, `linux/arm64`
 - **Process manager**: `dumb-init` (PID 1 signal handling)
-- **Privilege drop**: `gosu` (runs as non-root `node` user)
 - **Health check**: HTTP probe on port 18789 every 30s
