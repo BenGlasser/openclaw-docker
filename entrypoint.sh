@@ -19,10 +19,10 @@ fi
 # Create .openclaw directory if it doesn't exist
 mkdir -p /home/node/.openclaw
 
-# Fix ownership of persistent volume and app directory
-# Must run after UID/GID remapping to use correct values
-chown -R node:node /home/node/.openclaw 2>/dev/null || true
-chown -R node:node /app 2>/dev/null || true
+# Fix ownership after UID/GID remapping
+chown -R node:node /home/node/.openclaw
+chown -R node:node /home/node/.npm-global
+chown -R node:node /app
 
 # Generate default token if not set
 # Users should override with OPENCLAW_GATEWAY_TOKEN environment variable
@@ -39,10 +39,9 @@ echo "PUID: $PUID, PGID: $PGID"
 echo "Data directory: /home/node/.openclaw"
 echo "Gateway token: ${OPENCLAW_GATEWAY_TOKEN:0:10}..."
 
-su node -c "npm install -g openclaw"
-apt update && apt install iproute2 -y 
+gosu node npm install -g openclaw
 
-su node -c ./connect-qr.sh
+gosu node ./connect-qr.sh || true
 
 # Replace this shell with the main command, dropping to remapped user
 # gosu properly replaces the process and maintains signal handling with dumb-init

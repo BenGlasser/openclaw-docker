@@ -58,6 +58,7 @@ VOLUME ["/home/node/.openclaw"]
 HEALTHCHECK --interval=30s --timeout=5s --start-period=60s --retries=3 \
   CMD node /healthcheck.js
 
+COPY --chmod=755 connect-qr.sh .
 # Use dumb-init as PID 1 to handle signals properly
 ENTRYPOINT ["dumb-init", "--", "/entrypoint.sh"]
 
