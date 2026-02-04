@@ -41,6 +41,13 @@ RUN chown -R node:node /app
 # Create persistent data directory with correct ownership
 RUN mkdir -p /home/node/.openclaw && chown -R node:node /home/node/.openclaw
 
+# Create user-level npm global directory so openclaw installs without root
+RUN mkdir -p /home/node/.npm-global && chown -R node:node /home/node/.npm-global
+
+# Add user-level npm bin to PATH
+ENV PATH="/home/node/.npm-global/bin:${PATH}"
+ENV NPM_CONFIG_PREFIX="/home/node/.npm-global"
+
 # Expose OpenClaw Control UI port
 EXPOSE 18789
 
