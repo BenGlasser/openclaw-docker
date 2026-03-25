@@ -16,6 +16,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 2: Publishing Pipeline** - Automated DockerHub publishing via GitHub Actions
 - [x] **Phase 3: Unraid Integration** - XML template and testing on Unraid server
 - [ ] **Phase 4: Community Distribution** - Forum support and Community Applications submission
+- [ ] **Phase 5: Enhanced Docker Publishing** - Mutable tag strategy and backfill workflow
 
 ## Phase Details
 
@@ -82,7 +83,7 @@ Plans:
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 1 → 2 → 3 → 4
+Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
@@ -90,10 +91,22 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 | 2. Publishing Pipeline | 1/1 | Complete | 2026-02-02 |
 | 3. Unraid Integration | 3/3 | Complete | 2026-02-02 |
 | 4. Community Distribution | 0/TBD | Not started | - |
+| 5. Enhanced Docker Publishing | 0/2 | Not started | - |
+
+### Phase 5: Set up GitHub Actions workflows for Docker image builds and publishing
+
+**Goal:** Enhanced Docker image tagging with three mutable tags (latest, beta, dev) recalculated on every trigger, plus a manual backfill workflow for building missing releases and refreshing mutable tags
+**Requirements**: D-01, D-02, D-03, D-04, D-05, D-06, D-07, D-08, D-09, D-10, D-11, D-12
+**Depends on:** Phase 2
+**Plans:** 2 plans
+
+Plans:
+- [ ] 05-01-PLAN.md — Replace docker-publish.yml with enhanced mutable tag workflow (build-release + build-dev + sync-readme)
+- [ ] 05-02-PLAN.md — Create docker-backfill.yml manual workflow with two modes
 
 ---
 *Roadmap created: 2026-02-01*
-*Last updated: 2026-02-02*
+*Last updated: 2026-03-25*
 *Phase 1 completed: 2026-02-01*
 *Phase 2 completed: 2026-02-02*
 *Phase 3 completed: 2026-02-02*
