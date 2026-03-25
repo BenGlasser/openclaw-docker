@@ -1,0 +1,253 @@
+name: Docker Backfill
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'Operation mode'
+        required: true
+        type: choice
+        options:
+          - build-tag-and-update-mutable
+          - mutable-only
+        default: mutable-only
+      git_tag:
+        description: 'Git tag to build (e.g., v1.0.0) -- required for build-tag-and-update-mutable mode'
+        required: false
+        type: string
+
+env:
+  REGISTRY_IMAGE: ${{ vars.DOCKERHUB_USERNAME }}/openclaw
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    outputs:
+      mode: ${{ steps.validate-inputs.outputs.mode }}
+      git_tag: ${{ steps.validate-inputs.outputs.git_tag }}
+      latest_tag: ${{ steps.mutable.outputs.latest_tag }}
+      beta_tag: ${{ steps.mutable.outputs.beta_tag }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Validate inputs
+        id: validate-inputs
+        run: |
+          MODE="${{ github.event.inputs.mode }}"
+          TAG="${{ github.event.inputs.git_tag }}"
+
+          if [ "$MODE" = "build-tag-and-update-mutable" ]; then
+            if [ -z "$TAG" ]; then
+              echo "ERROR: git_tag input is required for build-tag-and-update-mutable mode"
+              exit 1
+            fi
+            if ! echo "$TAG" | grep -qE '^v[0-9]+\.[0-9]+\.[0-9]+(-beta(\.[0-9]+)?)?$'; then
+              echo "ERROR: git_tag must be semver format (v1.0.0 or v1.0.0-beta.1)"
+              exit 1
+            fi
+            git fetch --tags
+            if ! git tag -l | grep -qx "$TAG"; then
+              echo "ERROR: Tag $TAG does not exist in the repository"
+              exit 1
+            fi
+          fi
+
+          echo "mode=$MODE" >> $GITHUB_OUTPUT
+          echo "git_tag=$TAG" >> $GITHUB_OUTPUT
+
+      - name: Resolve mutable tag targets
+        id: mutable
+        run: |
+          git fetch --tags --quiet
+
+          LATEST_TAG=$(git tag --sort=-v:refname \
+            | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' \
+            | head -1)
+
+          BETA_TAG=$(git tag --sort=-v:refname \
+            | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+-beta(\.[0-9]+)?$' \
+            | head -1)
+
+          echo "latest_tag=$LATEST_TAG" >> $GITHUB_OUTPUT
+          echo "beta_tag=$BETA_TAG" >> $GITHUB_OUTPUT
+
+          echo "Resolved: latest=$LATEST_TAG, beta=$BETA_TAG"
+
+  build-tag:
+    runs-on: ubuntu-latest
+    needs: validate
+    if: needs.validate.outputs.mode == 'build-tag-and-update-mutable'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.validate.outputs.git_tag }}
+          fetch-depth: 0
+
+      - name: Check if image already exists on DockerHub
+        id: image-check
+        run: |
+          IMAGE="${{ vars.DOCKERHUB_USERNAME }}/openclaw"
+          TAG="${{ needs.validate.outputs.git_tag }}"
+          DOCKER_TAG="${TAG#v}"
+
+          TOKEN=$(curl -fsSL \
+            "https://auth.docker.io/token?service=registry.docker.io&scope=repository:${IMAGE}:pull" \
+            | jq -r '.token')
+
+          HTTP_CODE=$(curl -o /dev/null -s -w "%{http_code}" \
+            -H "Authorization: Bearer $TOKEN" \
+            -H "Accept: application/vnd.docker.distribution.manifest.v2+json" \
+            "https://registry-1.docker.io/v2/${IMAGE}/manifests/${DOCKER_TAG}")
+
+          if [ "$HTTP_CODE" = "200" ]; then
+            echo "WARNING: Image ${IMAGE}:${DOCKER_TAG} already exists -- skipping build"
+            echo "image_exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "image_exists=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Set up QEMU
+        if: steps.image-check.outputs.image_exists != 'true'
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        if: steps.image-check.outputs.image_exists != 'true'
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to Docker Hub
+        if: steps.image-check.outputs.image_exists != 'true'
+        uses: docker/login-action@v3
+        with:
+          username: ${{ vars.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Resolve tag type
+        id: tag-type
+        if: steps.image-check.outputs.image_exists != 'true'
+        run: |
+          TAG="${{ needs.validate.outputs.git_tag }}"
+          LATEST_TAG="${{ needs.validate.outputs.latest_tag }}"
+          BETA_TAG="${{ needs.validate.outputs.beta_tag }}"
+
+          if [ "$TAG" = "$LATEST_TAG" ]; then
+            echo "is_latest_target=true" >> $GITHUB_OUTPUT
+          else
+            echo "is_latest_target=false" >> $GITHUB_OUTPUT
+          fi
+
+          if [ "$TAG" = "$BETA_TAG" ]; then
+            echo "is_beta_target=true" >> $GITHUB_OUTPUT
+          else
+            echo "is_beta_target=false" >> $GITHUB_OUTPUT
+          fi
+
+          if echo "$TAG" | grep -qE '^v[0-9]+\.[0-9]+\.[0-9]+$'; then
+            echo "is_stable=true" >> $GITHUB_OUTPUT
+          else
+            echo "is_stable=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Extract metadata (tags, labels)
+        id: meta
+        if: steps.image-check.outputs.image_exists != 'true'
+        uses: docker/metadata-action@v6
+        with:
+          images: ${{ env.REGISTRY_IMAGE }}
+          flavor: |
+            latest=false
+          tags: |
+            type=semver,pattern={{version}},value=${{ needs.validate.outputs.git_tag }}
+            type=semver,pattern={{major}}.{{minor}},value=${{ needs.validate.outputs.git_tag }},enable=${{ steps.tag-type.outputs.is_stable == 'true' && !startsWith(needs.validate.outputs.git_tag, 'v0.') }}
+            type=semver,pattern={{major}},value=${{ needs.validate.outputs.git_tag }},enable=${{ steps.tag-type.outputs.is_stable == 'true' && !startsWith(needs.validate.outputs.git_tag, 'v0.') }}
+            type=raw,value=latest,enable=${{ steps.tag-type.outputs.is_latest_target }}
+            type=raw,value=beta,enable=${{ steps.tag-type.outputs.is_beta_target }}
+
+      - name: Build and push
+        if: steps.image-check.outputs.image_exists != 'true'
+        uses: docker/build-push-action@v7
+        with:
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          provenance: mode=max
+          sbom: true
+
+  build-mutable:
+    runs-on: ubuntu-latest
+    needs: [validate, build-tag]
+    if: always() && needs.validate.result == 'success'
+    strategy:
+      matrix:
+        include:
+          - name: latest
+            ref: ${{ needs.validate.outputs.latest_tag }}
+            tag: latest
+            skip: ${{ needs.validate.outputs.latest_tag == '' }}
+          - name: beta
+            ref: ${{ needs.validate.outputs.beta_tag }}
+            tag: beta
+            skip: ${{ needs.validate.outputs.beta_tag == '' }}
+          - name: dev
+            ref: main
+            tag: dev
+            skip: "false"
+
+    steps:
+      - name: Skip check
+        if: matrix.skip == 'true'
+        run: |
+          echo "Skipping ${{ matrix.name }} -- no ${{ matrix.name }} tag resolved"
+
+      - name: Checkout
+        if: matrix.skip != 'true'
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ matrix.ref }}
+
+      - name: Set up QEMU
+        if: matrix.skip != 'true'
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        if: matrix.skip != 'true'
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to Docker Hub
+        if: matrix.skip != 'true'
+        uses: docker/login-action@v3
+        with:
+          username: ${{ vars.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Extract metadata (tags, labels)
+        id: meta
+        if: matrix.skip != 'true'
+        uses: docker/metadata-action@v6
+        with:
+          images: ${{ env.REGISTRY_IMAGE }}
+          flavor: |
+            latest=false
+          tags: |
+            type=raw,value=${{ matrix.tag }}
+
+      - name: Build and push
+        if: matrix.skip != 'true'
+        uses: docker/build-push-action@v7
+        with:
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          provenance: mode=max
+          sbom: true
