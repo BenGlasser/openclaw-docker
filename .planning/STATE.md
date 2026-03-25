@@ -2,16 +2,14 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: verifying
-stopped_at: Phase 5 context gathered
-last_updated: "2026-03-25T16:19:08.644Z"
-last_activity: 2026-02-02 — Completed 03-03-PLAN.md (gap closure)
+status: Phase complete — ready for verification
+stopped_at: Completed 05-01-PLAN.md
+last_updated: "2026-03-25T16:40:59.404Z"
 progress:
   total_phases: 5
   completed_phases: 3
-  total_plans: 6
-  completed_plans: 6
-  percent: 100
+  total_plans: 8
+  completed_plans: 7
 ---
 
 # Project State
@@ -21,16 +19,12 @@ progress:
 See: .planning/PROJECT.md (updated 2026-02-01)
 
 **Core value:** Unraid users can install and run OpenClaw with a few clicks, and their configuration and data persists across container restarts without manual intervention.
-**Current focus:** Phase 3 - Unraid Integration
+**Current focus:** Phase 05 — set-up-github-actions-workflows-for-docker-image-builds-and-publishing
 
 ## Current Position
 
-Phase: 3 of 4 (Unraid Integration) — Complete (verified ✓)
-Plan: 3 of 3 plans completed
-Status: Phase 3 verified, ready for Phase 4
-Last activity: 2026-02-02 — Completed 03-03-PLAN.md (gap closure)
-
-Progress: [████████████████████] 100% (6/6 plans complete)
+Phase: 05 (set-up-github-actions-workflows-for-docker-image-builds-and-publishing) — EXECUTING
+Plan: 2 of 2
 
 ## Performance Metrics
 
@@ -54,6 +48,8 @@ Progress: [████████████████████] 100% (6
 - Trend: Phase 3 extremely fast - template generation and user verification only, no code execution
 
 *Updated after each plan completion*
+| Phase 05-set-up-github-actions-workflows-for-docker-image-builds-and-publishing P01 | 1 | 1 tasks | 1 files |
+| Phase 05-set-up-github-actions-workflows-for-docker-image-builds-and-publishing P02 | 1 | 1 tasks | 1 files |
 
 ## Accumulated Context
 
@@ -81,6 +77,11 @@ Recent decisions affecting current work:
 - OpenClaw Control UI requires HTTPS or localhost — SSH tunnel workaround documented for LAN testing
 - Icon URL: Use OpenClaw's iOS app icon from upstream repository (icon-1024.png) — Verified HTTP 200, 1024x1024 PNG suitable for Community Apps
 - Repository field: Confirmed brglasser/openclaw is correct DockerHub username — No changes needed
+- [Phase 05-set-up-github-actions-workflows-for-docker-image-builds-and-publishing]: Removed type=edge from docker-publish.yml; dev tag provides same semantics with clearer naming
+- [Phase 05-set-up-github-actions-workflows-for-docker-image-builds-and-publishing]: Mutable tag resolution via git tag scanning bash step + GITHUB_OUTPUT booleans consumed by metadata-action enable= expressions
+- [Phase 05-set-up-github-actions-workflows-for-docker-image-builds-and-publishing]: build-dev always checks out ref: main to ensure dev tag tracks main HEAD on both push-to-main and tag push triggers
+- [Phase 05]: build-mutable uses always() condition so it runs in both modes after build-tag is skipped in mutable-only mode
+- [Phase 05]: DockerHub existence check uses v2 registry API manifest GET with auth.docker.io bearer token -- prevents overwriting existing images
 
 ### Roadmap Evolution
 
@@ -108,9 +109,9 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-25T16:19:08.641Z
-Stopped at: Phase 5 context gathered
-Resume file: .planning/phases/05-set-up-github-actions-workflows-for-docker-image-builds-and-publishing/05-CONTEXT.md
+Last session: 2026-03-25T16:40:59.402Z
+Stopped at: Completed 05-01-PLAN.md
+Resume file: None
 
 ---
 *State initialized: 2026-02-01*

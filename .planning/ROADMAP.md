@@ -102,7 +102,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 
 Plans:
 - [ ] 05-01-PLAN.md — Replace docker-publish.yml with enhanced mutable tag workflow (build-release + build-dev + sync-readme)
-- [ ] 05-02-PLAN.md — Create docker-backfill.yml manual workflow with two modes
+- [x] 05-02-PLAN.md — Create docker-backfill.yml manual workflow with two modes
 
 ---
 *Roadmap created: 2026-02-01*
