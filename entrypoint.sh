@@ -16,4 +16,6 @@ echo "OpenClaw Docker v${OPENCLAW_DOCKER_VERSION:-unknown} starting..."
 echo "Data directory: /home/node/.openclaw"
 echo "Gateway token: ${OPENCLAW_GATEWAY_TOKEN:0:10}..."
 
+./connect-qr.sh || true
+
 exec "$@"

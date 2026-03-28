@@ -29,8 +29,9 @@ RUN pnpm install && pnpm build
 # Build Control UI assets
 RUN pnpm ui:build
 
-# Copy entrypoint script
+# Copy entrypoint and QR code connection scripts
 COPY --chmod=755 entrypoint.sh /entrypoint.sh
+COPY --chmod=755 connect-qr.sh /app/connect-qr.sh
 
 # Container image version
 ENV OPENCLAW_DOCKER_VERSION="0.4.0"
