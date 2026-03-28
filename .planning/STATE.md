@@ -107,10 +107,15 @@ None yet.
 - Workaround: SSH tunnel `ssh -L 18789:localhost:18789 root@unraid-ip`
 - Action: Document HTTPS requirement and SSH tunnel pattern for Phase 4 user documentation
 
+### Quick Tasks Completed
+
+| # | Description | Date | Commit | Directory |
+|---|-------------|------|--------|-----------|
+| 260327-x6p | Set up docker to run on unraid per install docs | 2026-03-28 | b9abaac | [260327-x6p-set-up-docker-to-run-on-unraid-per-insta](./quick/260327-x6p-set-up-docker-to-run-on-unraid-per-insta/) |
+
 ## Session Continuity
 
-Last session: 2026-03-25T16:40:59.402Z
-Stopped at: Completed 05-01-PLAN.md
+Last activity: 2026-03-28 - Completed quick task 260327-x6p: Set up docker to run on unraid per install docs
 Resume file: None
 
 ---
