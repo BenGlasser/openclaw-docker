@@ -29,31 +29,30 @@ RUN pnpm install && pnpm build
 # Build Control UI assets
 RUN pnpm ui:build
 
-# Copy entrypoint and health check scripts
+# Copy entrypoint script
 COPY --chmod=755 entrypoint.sh /entrypoint.sh
-COPY healthcheck.js /healthcheck.js
 
 # Container image version
-ENV OPENCLAW_DOCKER_VERSION="0.3.0"
+ENV OPENCLAW_DOCKER_VERSION="0.4.0"
 
 # Expose OpenClaw Control UI port
 EXPOSE 18789
-EXPOSE 3001
-EXPOSE 3334
 
-# Persistent volume at a stable path, symlinked to root's home for openclaw
-RUN mkdir -p /data/.openclaw && ln -s /data/.openclaw /root/.openclaw
-VOLUME ["/root/.openclaw"]
+# Persistent data directory for node user
+RUN mkdir -p /home/node/.openclaw /home/node/.openclaw/workspace && chown -R node:node /home/node/.openclaw
+VOLUME ["/home/node/.openclaw"]
 
 # Health check: Verify OpenClaw Control UI is responding
 HEALTHCHECK --interval=30s --timeout=5s --start-period=60s --retries=3 \
-  CMD node /healthcheck.js
+  CMD curl -f http://localhost:18789/healthz || exit 1
 
-COPY --chmod=755 connect-qr.sh .
+# Switch to non-root node user (uid 1000) per official docs
+USER node
+
 # Use dumb-init as PID 1 to handle signals properly
 ENTRYPOINT ["dumb-init", "--", "/entrypoint.sh"]
 
 # Start OpenClaw gateway (Control UI server)
 # --allow-unconfigured: Allows startup without initial configuration
 # --bind lan: Listen on all interfaces (0.0.0.0) for Docker port mapping
-CMD ["node", "openclaw.mjs", "gateway", "--port", "18789", "--bind", "lan", "--allow-unconfigured"]
+CMD ["node", "dist/index.js", "gateway", "--port", "18789", "--bind", "lan", "--allow-unconfigured"]
